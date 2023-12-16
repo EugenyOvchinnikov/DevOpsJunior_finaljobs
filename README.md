@@ -2,3 +2,4 @@
 
 Руководство системного администратора
 https://docs.google.com/document/d/1TFv9O4SEeBTnqVplQjDGRAKb5jxrFexMgDtqs_nifOM/edit?usp=drive_link
+[Руководство системного администратора](https://docs.google.com/document/d/1TFv9O4SEeBTnqVplQjDGRAKb5jxrFexMgDtqs_nifOM/edit?usp=drive_link)
