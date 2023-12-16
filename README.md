@@ -2,7 +2,7 @@
 
 Вся необходимая инфраструктура создаётся в Yandex Cloud с помощью скриптов и deb-пакетов:
 
-[Скрипт создания ВМ ca-server](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/ca_server_create.sh)\n
+[Скрипт создания ВМ ca-server](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/ca_server_create.sh)<br />
 [Скрипт создания ВМ vpn-server](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/vpn_server_create.sh)
 [Скрипт создания ВМ prometheus-server](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/prometheus_server_create.sh)
 [Скрипт копирования файлов на ВМ ca-server](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/ca_server_copy_deb.sh)
