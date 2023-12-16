@@ -1,0 +1,40 @@
+groups:
+- name: mainrules
+  rules:
+          
+  - alert: PrometheusTargetMissing
+    expr: up == 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: One of the instances is down
+      description: "A Prometheus target has disappeared. An exporter might be crashed."
+
+  - alert: PrometheusAllTargetsMissing
+    expr: count by (job) (up) == 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: Prometheus all targets missing
+      description: "A Prometheus job does not have living target anymore."
+
+  - alert: HostUnusualNetworkThroughputIn
+    expr: sum by (instance) (rate(node_network_receive_bytes_total[20s])) / 1024 / 1024 > 1
+    for: 20s
+    labels:
+      severity: warning
+    annotations:
+      summary: Host unusual network throughput.
+      description: "Host network interfaces are probably receiving too much data. Over 1 mbps"
+
+  - alert: HostHighCpuLoad
+    expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[1m])) * 100) > 50
+    for: 0m
+    labels:
+      severity: warning
+    annonations:
+      summary: Host high CPU load over 50%
+      description: "CPU load is > 50%"
+  
