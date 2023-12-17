@@ -8,6 +8,13 @@
 [Скрипт копирования файлов на ВМ ca-server](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/ca_server_copy_deb.sh)\
 [Скрипт копирования файлов на ВМ vpn-server](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/vpn_server_copy_deb.sh)\
 [Скрипт копирования файлов на prometheus-server](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/prometheus_server_copy_deb.sh)
+[Скрипт установки easy-rsa](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/easy_rsa_install.sh)
+[Скрипт установки openvpn](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/openvpn_install.sh)
+[Скрипт генерации ключей и файла настройки клиента](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/make_client_keys.sh)
+[Скрипт установки prometheus](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/prometheus_install.sh)
+[Скрипт установки openvpn exporter](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/openvpn_exporter_install.sh)
+
+
 
 Документация:
 
