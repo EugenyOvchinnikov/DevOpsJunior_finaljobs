@@ -7,7 +7,7 @@
 [Скрипт создания ВМ ca-server](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/ca_server_create.sh)\
 [Скрипт создания ВМ vpn-server](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/vpn_server_create.sh)\
 [Скрипт создания ВМ prometheus-server](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/prometheus_server_create.sh)
-#
+###
 Копирование скриптов и deb-пакетов:
 #
 [Скрипт копирования файлов на ВМ ca-server](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/ca_server_copy_deb.sh)\
@@ -27,8 +27,8 @@
 #
 Отчеты:
 #
-[Скрин vpn-server](\https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/Screenshot vpn-server.png\)\
-[Скрин vpn client connections]("https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/Screenshot connections.png")\
+[Скрин vpn-server](<https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/Screenshot vpn-server.png>)\
+[Скрин vpn client connections](<https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/Screenshot connections.png>)\
 [Скрин мониторинга](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/monitoring.png)\
 [Скрин grafana](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/grafana.png)
 #
