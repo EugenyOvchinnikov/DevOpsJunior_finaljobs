@@ -27,7 +27,7 @@
 #
 Отчеты:
 #
-[Скрин vpn-server]("https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/Screenshot vpn-server.png")\
+[Скрин vpn-server](\https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/Screenshot vpn-server.png\)\
 [Скрин vpn client connections]("https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/Screenshot connections.png")\
 [Скрин мониторинга](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/monitoring.png)\
 [Скрин grafana](https://github.com/EugenyOvchinnikov/DevOpsJunior_finaljobs/blob/main/grafana.png)
