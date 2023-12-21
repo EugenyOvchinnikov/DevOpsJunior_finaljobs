@@ -34,7 +34,7 @@ groups:
     for: 0m
     labels:
       severity: warning
-    annonations:
+    annotations:
       summary: Host high CPU load over 50%
-    description: "CPU load is > 50%"
+      description: "CPU load is > 50%"
   

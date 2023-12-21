@@ -3,6 +3,8 @@ eth=eth0
 proto=udp
 port=1194
 
+source servers_ip.txt
+
 # Настройка firewall
 # Политика по умолчанию DROP
 iptables -P INPUT DROP
@@ -28,11 +30,11 @@ iptables -A OUTPUT -o eth0 -p udp --dport 1194 -m state --state NEW,ESTABLISHED 
 iptables -A INPUT -i eth0 -p udp --sport 1194 -m state --state ESTABLISHED -j ACCEPT
 
 # Разрешаем входящие соединения vpn exporter
-iptables -A INPUT -i eth0 -p tcp --dport 9176 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i eth0 -p tcp --dport 9176 -s $prometheus_ip -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A OUTPUT -o eth0 -p tcp --sport 9176 -m state --state ESTABLISHED -j ACCEPT
 
 # Разрешаем входящие соединения node exporter
-iptables -A INPUT -i eth0 -p tcp --dport 9100 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i eth0 -p tcp --dport 9100 -s $prometheus_ip -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A OUTPUT -o eth0 -p tcp --sport 9100 -m state --state ESTABLISHED -j ACCEPT
 
 # OpenVPN

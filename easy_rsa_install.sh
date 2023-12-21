@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source servers_ip.txt
+
 function isRoot() {
 	if [ "$EUID" -ne 0 ]; then
 		return 1
@@ -87,7 +89,7 @@ iptables -A OUTPUT -o eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j
 iptables -A INPUT -i eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
 
 # Разрешаем входящие соединения node exporter
-iptables -A INPUT -i eth0 -p tcp --dport 9100 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i eth0 -p tcp --dport 9100 -s $prometheus_ip -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A OUTPUT -o eth0 -p tcp --sport 9100 -m state --state ESTABLISHED -j ACCEPT
 
 # Сохраняем правила

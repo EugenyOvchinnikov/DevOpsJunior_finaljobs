@@ -14,6 +14,25 @@ mv prometheus.yml /etc/prometheus/prometheus.yml
 mv consoles/ console_libraries/ /etc/prometheus/
 
 echo -e "\
+# my global config
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+rule_files:
+ - alert.rules.yml
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets:
+        - localhost:9093
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
   - job_name: "node"
     static_configs:
       - targets: ['localhost:9100']
@@ -58,10 +77,12 @@ Restart=always
 
 [Install]
 WantedBy=multi-user.target
+EOF
+
+chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus
+chown prometheus:prometheus /usr/local/bin/{prometheus,promtool} 
 
 systemctl daemon-reload
-systemctl enable prometheus"\
-EOF
 
 cd ~/
 wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
@@ -91,12 +112,9 @@ WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
+systemctl enable node_exporter
 systemctl start node_exporter
 systemctl enable prometheus
+systemctl start prometheus
 
 apt-get install prometheus-alertmanager
-
-# node_cpu_seconds_total{mode="iowait"}
-# node_filesystem_avail_bytes{fstype!="tmpfs", mountpoint="/"}/node_filesystem_size_bytes*100
-# 100-avg(irate(node_cpu_seconds_total{mode="idle"}[5m])) without (cpu) * 100
-# node_load15{instance="localhost:9100", job="node"}
