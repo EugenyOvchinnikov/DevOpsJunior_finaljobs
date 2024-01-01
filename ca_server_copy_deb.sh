@@ -5,6 +5,7 @@ echo $ca_ip
 
 user=yc-user
 
+scp ./servers_ip.txt $user@$ca_ip:~/
 scp ./easy-rsa_0.1-1_all.deb $user@$ca_ip:~/
 scp ./easy-rsa-vars_0.1-1_all.deb $user@$ca_ip:~/
 scp ./easy_rsa_install.sh $user@$ca_ip:~/

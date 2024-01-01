@@ -8,6 +8,34 @@ function isRoot() {
 	fi
 }
 
+function checkInstall() {
+	if dpkg -l $1 &> /dev/null; then
+		echo "--------------------"
+		echo "Package $1 installed"
+		echo "--------------------"
+		else 
+			echo "----------------------------------------------"
+			echo -e "Warning!\nPackage $1 not installed"
+			echo "Fix the problem and try the installation again"
+			echo "----------------------------------------------"
+		exit 1
+	fi
+}
+
+function checkService() {
+	if sudo service $1 status &> /dev/null; then
+		echo "--------------------"
+		echo "Service $1 is active"
+		echo "--------------------"
+		else 
+			echo "----------------------------------------------"
+			echo -e "Warning!\nService $1 not active"
+			echo "Fix the problem and try the installation again"
+			echo "----------------------------------------------"
+		exit 1
+	fi
+}
+
 if ! isRoot; then
       echo "Sorry, you need to run this as root"
 	exit 1
@@ -19,6 +47,8 @@ apt-get upgrade
 
 # Установка unzip
 apt-get install unzip -y
+
+checkInstall unzip
 
 # Синхронизация времени 
 apt-get install ntpdate
@@ -45,15 +75,15 @@ fi
 
 # Установка пакета easy-rsa
 dpkg -i easy-rsa_0.1-1_all.deb
+checkInstall easy-rsa
 unzip ~/master.zip -d ~/
 rm -rf ~/master.zip
 rm ./easy-rsa_0.1-1_all.deb
-echo "easy-rsa установлен"
 
 # Установка пакета easy-rsa-vars
 dpkg -i easy-rsa-vars_0.1-1_all.deb
+checkInstall easy-rsa-vars
 rm ./easy-rsa-vars_0.1-1_all.deb
-echo "easy-rsa-vars установлен"
 
 # Инициализируем инфраструктуру публичных ключей
 cd ~/easy-rsa-master/easyrsa3
@@ -70,9 +100,38 @@ echo "ключи скопированы"
 
 chown -R yc-user ~/easy-rsa-master ~/keys
 
-# prometheus-node-exporter install
-apt-get install prometheus-node-exporter
-echo "prometheus-node-exporter installed"
+# node_exporter install
+cd ~/
+wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+tar xvf node_exporter-1.3.1.linux-amd64.tar.gz
+cd node_exporter-1.3.1.linux-amd64
+cp node_exporter /usr/local/bin
+
+useradd --no-create-home --shell /bin/false node_exporter
+chown node_exporter:node_exporter /usr/local/bin/node_exporter
+
+cat > /etc/systemd/system/node_exporter.service << 'EOF'
+[Unit]
+Description=Node Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=node_exporter
+Group=node_exporter
+Type=simple
+ExecStart=/usr/local/bin/node_exporter
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
+systemctl enable node_exporter
+systemctl start node_exporter
+checkService node_exporter
 
 # Настройка firewall. Закрываем всё кроме ssh
 # Политика по умолчанию DROP
@@ -99,7 +158,5 @@ iptables-save > /etc/iptables/rules.v4
 
 # Добавляем в автозагрузку
 echo "re-up iptables-restore < /etc/iptables/rules.v4" >> /etc/network/interfaces
-
-
 
 echo "CA настроен"

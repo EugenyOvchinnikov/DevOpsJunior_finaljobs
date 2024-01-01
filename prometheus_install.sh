@@ -1,4 +1,19 @@
 #!/bin/bash
+
+function checkService() {
+	if sudo service $1 status &> /dev/null; then
+		echo "--------------------"
+		echo "Service $1 is active"
+		echo "--------------------"
+		else 
+			echo "----------------------------------------------"
+			echo -e "Warning!\nService $1 not active"
+			echo "Fix the problem and try the installation again"
+			echo "----------------------------------------------"
+		exit 1
+	fi
+}
+
 source servers_ip.txt
 
 wget https://github.com/prometheus/prometheus/releases/download/v2.48.1/prometheus-2.48.1.linux-amd64.tar.gz
@@ -10,6 +25,8 @@ cd prometheus-2.48.1.linux-amd64
 mv prometheus promtool /usr/local/bin/
 
 mkdir /etc/prometheus
+mkdir /var/log/prometheus
+mkdir /var/lib/prometheus
 mv prometheus.yml /etc/prometheus/prometheus.yml
 mv consoles/ console_libraries/ /etc/prometheus/
 
@@ -50,7 +67,7 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: ['$vpn_server_ip:9176']"\
->> /etc/prometheus/prometheus.yml
+> /etc/prometheus/prometheus.yml
 
 cat > /etc/systemd/system/prometheus.service << 'EOF'
 [Unit]
@@ -79,7 +96,10 @@ Restart=always
 WantedBy=multi-user.target
 EOF
 
-chown -R prometheus:prometheus /etc/prometheus /var/lib/prometheus
+mv ~/alert.rules.yml /etc/prometheus
+
+useradd --no-create-home --shell /bin/false prometheus
+chown -R prometheus:prometheus /etc/prometheus /var/log/prometheus /var/lib/prometheus
 chown prometheus:prometheus /usr/local/bin/{prometheus,promtool} 
 
 systemctl daemon-reload
@@ -114,7 +134,47 @@ EOF
 systemctl daemon-reload
 systemctl enable node_exporter
 systemctl start node_exporter
+checkService node_exporter
+
 systemctl enable prometheus
 systemctl start prometheus
+checkService prometheus
 
-apt-get install prometheus-alertmanager
+# Install alertmanager
+cd ~
+wget https://github.com/prometheus/alertmanager/releases/download/v0.24.0/alertmanager-0.24.0.linux-amd64.tar.gz
+tar xvf alertmanager-0.24.0.linux-amd64.tar.gz
+rm alertmanager-0.24.0.linux-amd64.tar.gz
+mkdir /etc/alertmanager /var/lib/prometheus/alertmanager
+cd alertmanager-0.24.0.linux-amd64
+cp alertmanager amtool /usr/local/bin/ && cp alertmanager.yml /etc/alertmanager
+useradd --no-create-home --shell /bin/false alertmanager
+chown -R alertmanager:alertmanager /etc/alertmanager /var/lib/prometheus/alertmanager
+chown alertmanager:alertmanager /usr/local/bin/{alertmanager,amtool}
+
+cat > /etc/systemd/system/alertmanager.service << 'EOF'
+[Unit]
+Description=Alertmanager Service
+After=network.target
+
+[Service]
+EnvironmentFile=-/etc/default/alertmanager
+User=alertmanager
+Group=alertmanager
+Type=simple
+ExecStart=/usr/local/bin/alertmanager \
+--config.file=/etc/alertmanager/alertmanager.yml \
+--storage.path=/var/lib/prometheus/alertmanager \
+--cluster.advertise-address="127.0.0.1:9093"\
+$ALERTMANAGER_OPTS
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
+systemctl enable alertmanager
+systemctl start alertmanager
+checkService alertmanager
