@@ -36,7 +36,7 @@
 #
 [Проектирование мониторинга](https://docs.google.com/document/d/1jHEk8t-O3ZF9vD5kUsSxjNUz1Dszor3eZijkLTRT5YQ/edit?usp=drive_link)\
 [Описание процесса бэкапа](https://docs.google.com/document/d/18RFXr3zhLXGZ0urspIa9CuO0QNFs_LMU8aAwGtFHeok/edit?usp=drive_link)\
-[Руководство пользоватя VPN](https://docs.google.com/document/d/1RV5g1p_XXhTb0QPyZk_APcpgHcxSG04NO0CAycdix9U/edit?usp=drive_link)\
+[Руководство пользователя VPN](https://docs.google.com/document/d/1RV5g1p_XXhTb0QPyZk_APcpgHcxSG04NO0CAycdix9U/edit?usp=drive_link)\
 [Схема инфраструктуры](https://drive.google.com/file/d/1z7vOaWu_cPa4dP8ewzRjW_NA3pfkfH4T/view?usp=drive_link)\
 [Схема потоков данных](https://drive.google.com/file/d/1jOklZq_wpOX2-ZjY5sR8DkUrr1kI_KHY/view?usp=drive_link)\
 [Руководство системного администратора](https://docs.google.com/document/d/1TFv9O4SEeBTnqVplQjDGRAKb5jxrFexMgDtqs_nifOM/edit?usp=drive_link)\
